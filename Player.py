@@ -29,6 +29,12 @@ class Player(object):
         self.playmusic(self.AudioFile)
         return True
 
+    # 重新播放
+    def Replay(self):
+        self.initMixer()
+        self.State = None
+        return self.Play()
+
     # 暂停
     def Pause(self):
         """ temporarily stop music playback"""
@@ -65,10 +71,28 @@ class Player(object):
 
     # 快进
     def Forward(self):
-        pass
+        if self.State == 'stopped':
+            return False
+
+        # pygame.mixer.music.set_pos(3)
+        pos = pygame.mixer.music.get_pos()/1000 + 3
+        pygame.mixer.music.play(0, pos)
+
+        return True
+
     # 快退
     def Backward(self):
-        pass
+        if self.State == 'stopped':
+            return False
+
+        # pygame.mixer.music.set_pos(-3)
+        pos = pygame.mixer.music.get_pos()/1000 - 3
+        pygame.mixer.music.play(0, pos)
+
+        return True
+
+    def GetPos(self):
+        return pygame.mixer.music.get_pos()
 
     #　获取音量值
     def GetVolume(self):
