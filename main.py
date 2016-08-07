@@ -1,12 +1,12 @@
 #!/usr/local/env python
 from Player import Player
-from flask import Flask
+from flask import Flask, send_from_directory
 app = Flask(__name__)
 Music = Player('/home/archer/Documents/Gosrc/src/tmp/music-player/music/Baby.mp3')
 
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
+@app.route('/<path:path>')
+def send_js(path):
+    return send_from_directory('static', path)
 
 @app.route('/cmd/play')
 def play():
